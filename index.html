@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Princess Aniska's 5th Birthday!</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Great Vibes for headings, Lato for body, Playfair Display for elegant subheaders -->
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: #fdf2f8; 
+            /* Added a subtle pattern to make the glass effect visible */
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(253,16%,7%,0) 0, hsla(253,16%,7%,0) 50%), 
+                radial-gradient(at 50% 0%, hsla(225,39%,30%,0) 0, hsla(225,39%,30%,0) 50%), 
+                radial-gradient(at 100% 0%, hsla(339,49%,30%,0) 0, hsla(339,49%,30%,0) 50%);
+        }
+        h1, h3, .princess-font {
+            font-family: 'Great Vibes', cursive;
+        }
+        /* Specific override for the elegant invite text */
+        .serif-font {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .sparkle-text {
+            background: linear-gradient(to right, #ec4899, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+            animation: text-shine 3s linear infinite;
+        }
+        @keyframes text-shine {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        /* --- New Glass Slipper Effect --- */
+        .glass-slipper {
+            background: rgba(255, 255, 255, 0.25); /* More transparent for glass feel */
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 
+                0 8px 32px 0 rgba(236, 72, 153, 0.2), /* Pinkish shadow */
+                inset 0 0 20px rgba(255, 255, 255, 0.4); /* Inner glow */
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Moving light reflection on glass */
+        .glass-slipper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(
+                to right,
+                transparent,
+                rgba(255, 255, 255, 0.4),
+                transparent
+            );
+            transform: skewX(-25deg);
+            animation: glass-shine 6s infinite;
+            pointer-events: none;
+        }
+
+        @keyframes glass-shine {
+            0% { left: -100%; }
+            20% { left: 200%; } /* Fast pass */
+            100% { left: 200%; } /* Long wait */
+        }
+
+        /* --- Floating Animation --- */
+        .floating {
+            animation: float 5s ease-in-out infinite;
+        }
+        
+        /* Floating delay for variety */
+        .floating-delayed {
+            animation: float 5s ease-in-out 2.5s infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); } /* Bobs up */
+            100% { transform: translateY(0px); }
+        }
+
+        /* Improved Text Readability */
+        .readable-text {
+            text-shadow: 0 2px 4px rgba(255, 255, 255, 0.9), 0 0 10px rgba(253, 242, 248, 0.8);
+        }
+
+        /* Sparkle Animation Styles */
+        .sparkle {
+            position: absolute;
+            pointer-events: none;
+            background: white;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            opacity: 0;
+            z-index: 50;
+            animation: sparkle-anim 2s linear forwards;
+        }
+
+        @keyframes sparkle-anim {
+            0% { transform: scale(0) rotate(0deg); opacity: 0; }
+            50% { transform: scale(1) rotate(180deg); opacity: 0.8; }
+            100% { transform: scale(0) rotate(360deg); opacity: 0; }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fce7f3; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #f472b6; 
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="text-gray-700 overflow-x-hidden">
+
+    <!-- Hero Section -->
+    <div class="relative min-h-screen flex flex-col items-center justify-center text-center px-4 bg-gradient-to-br from-pink-200 via-purple-100 to-pink-200">
+        
+        <!-- Animated Background Shapes -->
+        <div class="absolute top-20 left-10 w-32 h-32 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+        <div class="absolute top-20 right-10 w-32 h-32 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+        <div class="absolute -bottom-8 left-20 w-32 h-32 bg-yellow-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+
+        <!-- Decorative Floating Icons -->
+        <div class="absolute top-10 left-10 text-pink-400 text-4xl floating"><i class="fa-solid fa-crown"></i></div>
+        <div class="absolute bottom-20 right-10 text-purple-400 text-5xl floating-delayed"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+        <div class="absolute top-1/4 right-5 text-blue-300 text-3xl floating"><i class="fa-regular fa-snowflake"></i></div>
+        
+        <!-- Main Invitation Card (Glass Effect + Floating) -->
+        <div class="z-10 glass-slipper rounded-[3rem] p-8 md:p-12 max-w-2xl w-full floating">
+            <h2 class="text-xl md:text-2xl text-pink-800 mb-4 font-bold tracking-[0.2em] uppercase drop-shadow-md readable-text serif-font">You are cordially invited to</h2>
+            <h1 class="text-6xl md:text-8xl princess-font sparkle-text mb-6 leading-tight drop-shadow-sm">Princess Aniska's<br>5th Birthday</h1>
+            
+            <div class="flex justify-center my-6">
+                <span class="inline-block bg-white/50 backdrop-blur-md text-pink-700 border border-pink-200 rounded-full px-8 py-3 text-xl font-bold shadow-lg transform -rotate-2">
+                    <i class="fa-regular fa-calendar-star mr-2"></i> Sunday, Jan 25th
+                </span>
+            </div>
+
+            <p class="text-xl md:text-2xl text-gray-800 mb-8 font-medium leading-relaxed">
+                Join us for a magical afternoon of celebration, food, and joy as we mark this royal milestone with family and friends.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left bg-white/40 p-6 rounded-2xl border border-white/50 shadow-inner">
+                <div>
+                    <h3 class="text-2xl text-pink-600 mb-1 font-bold">When?</h3>
+                    <p class="text-lg font-semibold">2:00 PM - 5:00 PM</p>
+                </div>
+                <div>
+                    <h3 class="text-2xl text-pink-600 mb-1 font-bold">Where?</h3>
+                    <p class="text-lg font-semibold">The Royal Palace (Our House)</p>
+                    <p class="text-sm text-gray-600">123 Enchanted Lane, Fairytale City</p>
+                </div>
+            </div>
+
+            <div class="mt-10">
+                <a href="#rsvp" class="inline-block bg-gradient-to-r from-pink-500 to-purple-500 text-white text-xl font-bold py-4 px-12 rounded-full shadow-lg hover:scale-105 transition-transform duration-300 border-2 border-white/50">
+                    RSVP Now
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Timeline Section -->
+    <div class="py-20 bg-white/80 backdrop-blur-md">
+        <div class="max-w-4xl mx-auto px-4">
+            <h2 class="text-5xl md:text-6xl text-center text-pink-500 mb-16 princess-font drop-shadow-sm">Growing Up Royal</h2>
+            
+            <div class="relative">
+                <!-- Vertical Line -->
+                <div class="hidden md:block absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-pink-200"></div>
+
+                <!-- Year 1 -->
+                <div class="flex flex-col md:flex-row items-center mb-16 relative group">
+                    <div class="md:w-1/2 p-4 text-right md:pr-12">
+                        <h3 class="text-4xl text-pink-400 mb-2">Age 1</h3>
+                        <p class="italic text-gray-500">Her very first royal ball.</p>
+                    </div>
+                    <div class="absolute left-1/2 transform -translate-x-1/2 bg-pink-400 w-8 h-8 rounded-full border-4 border-white shadow hidden md:block z-10"></div>
+                    <div class="md:w-1/2 p-4 md:pl-12">
+                        <div class="bg-white p-2 rounded-xl shadow-lg rotate-3 group-hover:rotate-0 transition-transform duration-500 border border-pink-100">
+                            <img src="https://placehold.co/400x300/fbcfe8/be185d?text=Princess+Aniska+Age+1" alt="Age 1" class="rounded-lg w-full object-cover shadow-inner">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Year 2 -->
+                <div class="flex flex-col md:flex-row-reverse items-center mb-16 relative group">
+                    <div class="md:w-1/2 p-4 text-left md:pl-12">
+                        <h3 class="text-4xl text-pink-400 mb-2">Age 2</h3>
+                        <p class="italic text-gray-500">Learning to rule the kingdom (terrible twos!).</p>
+                    </div>
+                    <div class="absolute left-1/2 transform -translate-x-1/2 bg-pink-400 w-8 h-8 rounded-full border-4 border-white shadow hidden md:block z-10"></div>
+                    <div class="md:w-1/2 p-4 md:pr-12">
+                        <div class="bg-white p-2 rounded-xl shadow-lg -rotate-2 group-hover:rotate-0 transition-transform duration-500 border border-purple-100">
+                            <img src="https://placehold.co/400x300/e9d5ff/7e22ce?text=Princess+Aniska+Age+2" alt="Age 2" class="rounded-lg w-full object-cover shadow-inner">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Year 3 -->
+                <div class="flex flex-col md:flex-row items-center mb-16 relative group">
+                    <div class="md:w-1/2 p-4 text-right md:pr-12">
+                        <h3 class="text-4xl text-pink-400 mb-2">Age 3</h3>
+                        <p class="italic text-gray-500">Discovering magic everywhere.</p>
+                    </div>
+                    <div class="absolute left-1/2 transform -translate-x-1/2 bg-pink-400 w-8 h-8 rounded-full border-4 border-white shadow hidden md:block z-10"></div>
+                    <div class="md:w-1/2 p-4 md:pl-12">
+                        <div class="bg-white p-2 rounded-xl shadow-lg rotate-1 group-hover:rotate-0 transition-transform duration-500 border border-pink-100">
+                            <img src="https://placehold.co/400x300/fbcfe8/be185d?text=Princess+Aniska+Age+3" alt="Age 3" class="rounded-lg w-full object-cover shadow-inner">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Year 4 -->
+                <div class="flex flex-col md:flex-row-reverse items-center mb-16 relative group">
+                    <div class="md:w-1/2 p-4 text-left md:pl-12">
+                        <h3 class="text-4xl text-pink-400 mb-2">Age 4</h3>
+                        <p class="italic text-gray-500">Practicing her royal wave.</p>
+                    </div>
+                    <div class="absolute left-1/2 transform -translate-x-1/2 bg-pink-400 w-8 h-8 rounded-full border-4 border-white shadow hidden md:block z-10"></div>
+                    <div class="md:w-1/2 p-4 md:pr-12">
+                        <div class="bg-white p-2 rounded-xl shadow-lg -rotate-3 group-hover:rotate-0 transition-transform duration-500 border border-purple-100">
+                            <img src="https://placehold.co/400x300/e9d5ff/7e22ce?text=Princess+Aniska+Age+4" alt="Age 4" class="rounded-lg w-full object-cover shadow-inner">
+                        </div>
+                    </div>
+                </div>
+                 <!-- Year 5 -->
+                 <div class="flex flex-col md:flex-row items-center mb-16 relative group">
+                    <div class="md:w-1/2 p-4 text-right md:pr-12">
+                        <h3 class="text-4xl text-pink-600 mb-2 font-bold">Age 5!</h3>
+                        <p class="italic text-gray-500">The Big Five! Ready to party.</p>
+                    </div>
+                    <div class="absolute left-1/2 transform -translate-x-1/2 bg-pink-600 w-10 h-10 rounded-full border-4 border-white shadow hidden md:block z-10 animate-pulse"></div>
+                    <div class="md:w-1/2 p-4 md:pl-12">
+                        <div class="glass-slipper p-3 rounded-xl shadow-2xl rotate-2 group-hover:rotate-0 transition-transform duration-500 border-2 border-pink-200">
+                            <img src="https://placehold.co/400x300/fce7f3/db2777?text=Birthday+Girl+Aniska" alt="Age 5" class="rounded-lg w-full object-cover shadow-inner opacity-90">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- RSVP Section -->
+    <div id="rsvp" class="py-20 bg-pink-50/50 relative overflow-hidden">
+        <!-- Decorative background circles -->
+        <div class="absolute -top-10 -right-10 w-40 h-40 bg-pink-300 rounded-full opacity-30 blur-2xl animate-pulse"></div>
+        <div class="absolute -bottom-10 -left-10 w-60 h-60 bg-purple-300 rounded-full opacity-30 blur-2xl animate-pulse"></div>
+
+        <div class="max-w-lg mx-auto px-4 relative z-10">
+            <!-- Glass Effect on RSVP Card -->
+            <div class="glass-slipper rounded-3xl shadow-2xl overflow-hidden">
+                <div class="bg-pink-500/80 backdrop-blur-sm p-6 text-center">
+                    <h2 class="text-4xl text-white princess-font drop-shadow">Royal RSVP</h2>
+                    <p class="text-pink-100">Will you join the celebration?</p>
+                </div>
+                
+                <div class="p-8">
+                    <form id="rsvpForm" class="space-y-6">
+                        <div>
+                            <label class="block text-gray-800 font-bold mb-2">Guest Name(s)</label>
+                            <input type="text" id="guestName" required placeholder="e.g. Auntie Sarah" class="w-full px-4 py-3 rounded-lg border border-pink-200 focus:outline-none focus:ring-2 focus:ring-pink-400 bg-white/70 backdrop-blur-sm transition-colors">
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-800 font-bold mb-2">Will you attend?</label>
+                            <div class="flex gap-4">
+                                <label class="flex-1 cursor-pointer">
+                                    <input type="radio" name="attending" value="yes" checked class="peer sr-only">
+                                    <div class="text-center p-3 rounded-lg border-2 border-pink-200 peer-checked:border-pink-500 peer-checked:bg-pink-100/50 transition-all bg-white/40">
+                                        <i class="fa-solid fa-check text-green-600 mb-1"></i>
+                                        <div class="font-bold">Yes!</div>
+                                    </div>
+                                </label>
+                                <label class="flex-1 cursor-pointer">
+                                    <input type="radio" name="attending" value="no" class="peer sr-only">
+                                    <div class="text-center p-3 rounded-lg border-2 border-pink-200 peer-checked:border-gray-500 peer-checked:bg-gray-100/50 transition-all bg-white/40">
+                                        <i class="fa-solid fa-xmark text-red-500 mb-1"></i>
+                                        <div class="font-bold">Regretfully No</div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-800 font-bold mb-2">Total Number of Guests</label>
+                            <input type="number" id="guestCount" min="1" max="10" value="1" class="w-full px-4 py-3 rounded-lg border border-pink-200 focus:outline-none focus:ring-2 focus:ring-pink-400 bg-white/70 backdrop-blur-sm transition-colors">
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-800 font-bold mb-2">Message for the Princess (Optional)</label>
+                            <textarea id="message" rows="2" placeholder="Happy Birthday!" class="w-full px-4 py-3 rounded-lg border border-pink-200 focus:outline-none focus:ring-2 focus:ring-pink-400 bg-white/70 backdrop-blur-sm transition-colors"></textarea>
+                        </div>
+
+                        <button type="submit" id="submitBtn" class="w-full bg-pink-500 hover:bg-pink-600 text-white font-bold py-4 rounded-xl shadow-lg transform transition hover:-translate-y-1 hover:shadow-pink-300/50">
+                            Send Royal Decree
+                        </button>
+                    </form>
+
+                    <!-- Success Message -->
+                    <div id="successMessage" class="hidden text-center py-10">
+                        <div class="text-5xl text-pink-500 mb-4 animate-bounce">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2">Thank you!</h3>
+                        <p class="text-gray-600">Your response has been sent to the castle.</p>
+                        <button onclick="location.reload()" class="mt-4 text-pink-500 underline text-sm">Submit another</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Guest List Display (Proof of Database) -->
+    <div class="py-16 bg-white border-t border-pink-100">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="text-3xl princess-font text-pink-400 mb-8">Who is Coming to the Castle?</h2>
+            
+            <div id="guestList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Guests will load here from Firestore -->
+                <div class="col-span-full text-gray-400 italic">Checking the royal scrolls...</div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-pink-500 text-white text-center py-6">
+        <p class="font-bold">Made with <i class="fa-solid fa-heart text-pink-200 animate-pulse"></i> for Princess Aniska</p>
+    </footer>
+
+    <!-- Magic Sparkle Script -->
+    <script>
+        function createSparkle() {
+            const sparkle = document.createElement('div');
+            sparkle.classList.add('sparkle');
+            
+            // Random position across the entire page height
+            const x = Math.random() * window.innerWidth;
+            const y = Math.random() * Math.max(document.body.scrollHeight, window.innerHeight); 
+            
+            // Random size
+            const size = Math.random() * 15 + 8; 
+            
+            sparkle.style.left = `${x}px`;
+            sparkle.style.top = `${y}px`;
+            sparkle.style.width = `${size}px`;
+            sparkle.style.height = `${size}px`;
+            
+            // Random color tint (White, Gold, or Light Pink)
+            const colors = ['#ffffff', '#fcd34d', '#fbcfe8'];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            sparkle.style.background = randomColor;
+            sparkle.style.boxShadow = `0 0 10px 2px ${randomColor}`;
+
+            document.body.appendChild(sparkle);
+
+            // Remove after animation
+            setTimeout(() => {
+                sparkle.remove();
+            }, 2000);
+        }
+
+        // Create sparkles periodically
+        setInterval(createSparkle, 300);
+        
+        // Burst of sparkles on click!
+        document.addEventListener('click', (e) => {
+            for(let i=0; i<8; i++) {
+                setTimeout(createSparkle, i * 50);
+            }
+        });
+    </script>
+
+    <!-- Firebase Scripts -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+        // Global Firebase Config (Provided by environment)
+        const firebaseConfig = JSON.parse(__firebase_config);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        const rsvpCollectionPath = `artifacts/${appId}/public/data/rsvps`;
+        const rsvpRef = collection(db, 'artifacts', appId, 'public', 'data', 'rsvps');
+
+        // Init Auth Function
+        const initAuth = async () => {
+             try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            } catch (error) {
+                console.error("Auth initialization failed:", error);
+            }
+        };
+
+        // Initialize and listen
+        initAuth();
+
+        // Listen for auth state changes before attaching listeners
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                console.log("User authenticated:", user.uid);
+                setupRealtimeListener();
+            }
+        });
+
+        function setupRealtimeListener() {
+             // Listen for RSVPs to display them
+            onSnapshot(rsvpRef, (snapshot) => {
+                const guestListEl = document.getElementById('guestList');
+                guestListEl.innerHTML = '';
+                
+                const responses = [];
+                snapshot.forEach(doc => {
+                    responses.push({ id: doc.id, ...doc.data() });
+                });
+
+                // Filter for "Yes" only and Sort by date (newest first) in memory
+                const attendingGuests = responses
+                    .filter(r => r.attending === 'yes')
+                    .sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
+
+                if (attendingGuests.length === 0) {
+                    guestListEl.innerHTML = '<div class="col-span-full text-gray-500">No RSVPs yet. Be the first!</div>';
+                    return;
+                }
+
+                attendingGuests.forEach(guest => {
+                    const card = document.createElement('div');
+                    card.className = 'glass-slipper p-4 flex items-center gap-3 text-left animate-fade-in border-none shadow-md';
+                    
+                    // Random princess emoji for avatar
+                    const avatars = ['👑', '🦄', '🏰', '🧚‍♀️', '✨', '👗', '💎'];
+                    const randomAvatar = avatars[Math.floor(Math.random() * avatars.length)];
+
+                    card.innerHTML = `
+                        <div class="bg-white/80 w-10 h-10 rounded-full flex items-center justify-center text-xl shadow-sm">
+                            ${randomAvatar}
+                        </div>
+                        <div>
+                            <div class="font-bold text-gray-800">${guest.name}</div>
+                            <div class="text-xs text-pink-600 font-bold">${guest.guests} Guest${guest.guests > 1 ? 's' : ''}</div>
+                        </div>
+                    `;
+                    guestListEl.appendChild(card);
+                });
+            }, (error) => {
+                console.error("Error getting documents: ", error);
+                document.getElementById('guestList').innerHTML = '<div class="col-span-full text-red-400">Could not load guest list at this time.</div>';
+            });
+        }
+
+        // Handle Form Submission
+        document.getElementById('rsvpForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const btn = document.getElementById('submitBtn');
+            const originalBtnText = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
+            btn.disabled = true;
+
+            const name = document.getElementById('guestName').value;
+            const attending = document.querySelector('input[name="attending"]:checked').value;
+            const guests = parseInt(document.getElementById('guestCount').value);
+            const message = document.getElementById('message').value;
+
+            try {
+                // Ensure we are auth'd before writing
+                if (!auth.currentUser) {
+                     // Retry auth if needed
+                     await initAuth();
+                }
+
+                if (!auth.currentUser) throw new Error("User not authenticated");
+
+                await addDoc(rsvpRef, {
+                    name: name,
+                    attending: attending,
+                    guests: guests,
+                    message: message,
+                    timestamp: serverTimestamp() // We can use serverTimestamp for storage, just not complex querying
+                });
+
+                // Show success UI
+                document.getElementById('rsvpForm').classList.add('hidden');
+                document.getElementById('successMessage').classList.remove('hidden');
+                
+                // Scroll to guest list to see name appear
+                setTimeout(() => {
+                   document.getElementById('guestList').scrollIntoView({behavior: 'smooth'}); 
+                }, 1500);
+
+            } catch (error) {
+                console.error("Error adding document: ", error);
+                alert("Oh no! The royal messenger got lost. Please try again.");
+                btn.innerHTML = originalBtnText;
+                btn.disabled = false;
+            }
+        });
+    </script>
+
+    <style>
+        /* Fade in animation for new list items */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        /* Blob Animation for background */
+        @keyframes blob {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
+        }
+        .animate-blob {
+            animation: blob 7s infinite;
+        }
+        .animation-delay-2000 {
+            animation-delay: 2s;
+        }
+        .animation-delay-4000 {
+            animation-delay: 4s;
+        }
+    </style>
+</body>
+</html>
