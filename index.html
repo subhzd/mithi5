@@ -9,6 +9,16 @@
     <link rel="icon" type="image/png" href="mcon.png">
     <link rel="apple-touch-icon" href="mcon.png">
 
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mithi.aimaverick.me">
+    <meta property="og:title" content="Aniska | 5th Bday">
+    <meta property="og:description" content="Aniska 5th Birthday Invite.">
+    <meta property="og:image" content="mcon.png">
+
     <!-- Tailwind CSS -->
     <script src="cdn.tailwindcss.com"></script>
     <!-- Google Fonts: Great Vibes for headings, Lato for body, Playfair Display for elegant subheaders -->
@@ -510,6 +520,20 @@
         });
     </script>
 
+    <!-- HOST CHECK SCRIPT: Runs independently of Firebase -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('host')) {
+                const dashboard = document.getElementById('hostDashboard');
+                if(dashboard) {
+                    dashboard.classList.remove('hidden');
+                    console.log("Host dashboard enabled via URL parameter.");
+                }
+            }
+        });
+    </script>
+
     <!-- Firebase Scripts -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
@@ -517,162 +541,224 @@
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
         // Global Firebase Config (Provided by environment)
-        const firebaseConfig = JSON.parse(__firebase_config);
+        // NOTE: If hosting externally, you must replace JSON.parse(__firebase_config) with your actual config object!
+        let firebaseConfig;
+        try {
+            firebaseConfig = JSON.parse(__firebase_config);
+        } catch (e) {
+            console.error("Firebase config missing. If you are hosting this file, you must add your firebaseConfig object manually.");
+            // Add a friendly error to the UI
+            document.getElementById('guestList').innerHTML = '<div class="col-span-full text-red-500 bg-red-50 p-4 rounded-xl">⚠️ <b>Setup Required:</b> Database configuration is missing. This happens when hosting the file externally without copying the Firebase keys. Please check the console for details.</div>';
+        }
+
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
         
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
+        if (firebaseConfig) {
+            // Initialize Firebase
+            const app = initializeApp(firebaseConfig);
+            const db = getFirestore(app);
+            const auth = getAuth(app);
 
-        const rsvpCollectionPath = `artifacts/${appId}/public/data/rsvps`;
-        const rsvpRef = collection(db, 'artifacts', appId, 'public', 'data', 'rsvps');
+            const rsvpCollectionPath = `artifacts/${appId}/public/data/rsvps`;
+            const rsvpRef = collection(db, 'artifacts', appId, 'public', 'data', 'rsvps');
 
-        let unsubscribe; // Variable to hold the listener unsubscribe function
-        window.currentGuestList = []; // Store guests for export
+            let unsubscribe; // Variable to hold the listener unsubscribe function
+            window.currentGuestList = []; // Store guests for export
 
-        // Init Auth Function
-        const initAuth = async () => {
-             try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-            } catch (error) {
-                console.error("Auth initialization failed:", error);
-            }
-        };
-
-        // Initialize and listen
-        initAuth();
-
-        // Listen for auth state changes before attaching listeners
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                console.log("User authenticated:", user.uid);
-                setupRealtimeListener(user);
-            } else {
-                console.log("User signed out");
-                if (unsubscribe) {
-                    unsubscribe();
-                    unsubscribe = null;
-                }
-            }
-        });
-
-        // Check for host access on load
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.has('host')) {
-            const dashboard = document.getElementById('hostDashboard');
-            if(dashboard) dashboard.classList.remove('hidden');
-        }
-
-        function setupRealtimeListener(user) {
-             if (unsubscribe) {
-                unsubscribe(); // Clean up existing listener if any
-             }
-
-             // Listen for RSVPs to display them
-            unsubscribe = onSnapshot(rsvpRef, (snapshot) => {
-                const guestListEl = document.getElementById('guestList');
-                guestListEl.innerHTML = '';
-                
-                const responses = [];
-                snapshot.forEach(doc => {
-                    responses.push({ id: doc.id, ...doc.data() });
-                });
-
-                // Filter for "Yes" only and Sort by date (newest first) in memory
-                const attendingGuests = responses
-                    .filter(r => r.attending === 'yes')
-                    .sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
-
-                // Save for export
-                window.currentGuestList = attendingGuests;
-
-                // Calculate Totals
-                let totalAdults = 0;
-                let totalKids = 0;
-                attendingGuests.forEach(g => {
-                    totalAdults += (g.adults || 0);
-                    totalKids += (g.kids || 0);
-                    // Fallback for old data structure if simple guests count was used
-                    if(!g.adults && !g.kids && g.guests) {
-                        totalAdults += g.guests; 
-                    }
-                });
-
-                // Update Summary
-                const totalDisplay = document.getElementById('totalCountDisplay');
-                if(totalDisplay) {
-                     totalDisplay.innerHTML = `
-                        <div class="flex gap-6 justify-center">
-                            <div class="text-center">
-                                <div class="text-3xl text-blue-500 font-extrabold">${totalAdults}</div>
-                                <div class="text-xs uppercase tracking-wide text-gray-500">Adults</div>
-                            </div>
-                            <div class="text-center">
-                                <div class="text-3xl text-pink-500 font-extrabold">${totalKids}</div>
-                                <div class="text-xs uppercase tracking-wide text-gray-500">Kids</div>
-                            </div>
-                            <div class="text-center border-l pl-6 border-gray-200">
-                                <div class="text-3xl text-purple-600 font-extrabold">${totalAdults + totalKids}</div>
-                                <div class="text-xs uppercase tracking-wide text-gray-500">Total</div>
-                            </div>
-                        </div>
-                     `;
-                }
-
-
-                if (attendingGuests.length === 0) {
-                    guestListEl.innerHTML = '<div class="col-span-full text-gray-500">No RSVPs yet. Be the first!</div>';
-                    return;
-                }
-
-                attendingGuests.forEach(guest => {
-                    const card = document.createElement('div');
-                    card.className = 'glass-slipper p-4 flex items-center gap-3 text-left animate-fade-in border-none shadow-md';
-                    
-                    // Random princess emoji for avatar
-                    const avatars = ['👑', '🦄', '🏰', '🧚‍♀️', '✨', '👗', '💎', '🌈'];
-                    const randomAvatar = avatars[Math.floor(Math.random() * avatars.length)];
-
-                    // Backward compatibility logic for guest display
-                    let guestDisplay = '';
-                    if (guest.adults !== undefined || guest.kids !== undefined) {
-                        const adults = guest.adults || 0;
-                        const kids = guest.kids || 0;
-                        guestDisplay = `${adults} Adults, ${kids} Kids`;
+            // Init Auth Function
+            const initAuth = async () => {
+                 try {
+                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                        await signInWithCustomToken(auth, __initial_auth_token);
                     } else {
-                         // Fallback for old records
-                        guestDisplay = `${guest.guests || 1} Guests`;
+                        await signInAnonymously(auth);
                     }
+                } catch (error) {
+                    console.error("Auth initialization failed:", error);
+                }
+            };
 
-                    card.innerHTML = `
-                        <div class="bg-white/80 w-10 h-10 rounded-full flex items-center justify-center text-xl shadow-sm">
-                            ${randomAvatar}
-                        </div>
-                        <div>
-                            <div class="font-bold text-gray-800">${guest.name}</div>
-                            <div class="text-xs text-purple-600 font-bold">${guestDisplay}</div>
-                        </div>
-                    `;
-                    guestListEl.appendChild(card);
-                });
-            }, (error) => {
-                console.error("Error getting documents: ", error);
-                // We won't overwrite the HTML with an error message immediately to avoid flickering
-                // if it's a transient permission issue during auth switch
-                if (error.code === 'permission-denied') {
-                     console.log("Permission denied - waiting for valid auth state...");
+            // Initialize and listen
+            initAuth();
+
+            // Listen for auth state changes before attaching listeners
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    console.log("User authenticated:", user.uid);
+                    setupRealtimeListener(user);
                 } else {
-                    document.getElementById('guestList').innerHTML = '<div class="col-span-full text-red-400">Could not load guest list at this time.</div>';
+                    console.log("User signed out");
+                    if (unsubscribe) {
+                        unsubscribe();
+                        unsubscribe = null;
+                    }
                 }
             });
-        }
 
-        // Host Function: Download Report
+            function setupRealtimeListener(user) {
+                 if (unsubscribe) {
+                    unsubscribe(); // Clean up existing listener if any
+                 }
+
+                 // Listen for RSVPs to display them
+                unsubscribe = onSnapshot(rsvpRef, (snapshot) => {
+                    const guestListEl = document.getElementById('guestList');
+                    guestListEl.innerHTML = '';
+                    
+                    const responses = [];
+                    snapshot.forEach(doc => {
+                        responses.push({ id: doc.id, ...doc.data() });
+                    });
+
+                    // Filter for "Yes" only and Sort by date (newest first) in memory
+                    const attendingGuests = responses
+                        .filter(r => r.attending === 'yes')
+                        .sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
+
+                    // Save for export
+                    window.currentGuestList = attendingGuests;
+
+                    // Calculate Totals
+                    let totalAdults = 0;
+                    let totalKids = 0;
+                    attendingGuests.forEach(g => {
+                        totalAdults += (g.adults || 0);
+                        totalKids += (g.kids || 0);
+                        // Fallback for old data structure if simple guests count was used
+                        if(!g.adults && !g.kids && g.guests) {
+                            totalAdults += g.guests; 
+                        }
+                    });
+
+                    // Update Summary
+                    const totalDisplay = document.getElementById('totalCountDisplay');
+                    if(totalDisplay) {
+                         totalDisplay.innerHTML = `
+                            <div class="flex gap-6 justify-center">
+                                <div class="text-center">
+                                    <div class="text-3xl text-blue-500 font-extrabold">${totalAdults}</div>
+                                    <div class="text-xs uppercase tracking-wide text-gray-500">Adults</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-3xl text-pink-500 font-extrabold">${totalKids}</div>
+                                    <div class="text-xs uppercase tracking-wide text-gray-500">Kids</div>
+                                </div>
+                                <div class="text-center border-l pl-6 border-gray-200">
+                                    <div class="text-3xl text-purple-600 font-extrabold">${totalAdults + totalKids}</div>
+                                    <div class="text-xs uppercase tracking-wide text-gray-500">Total</div>
+                                </div>
+                            </div>
+                         `;
+                    }
+
+
+                    if (attendingGuests.length === 0) {
+                        guestListEl.innerHTML = '<div class="col-span-full text-gray-500">No RSVPs yet. Be the first!</div>';
+                        return;
+                    }
+
+                    attendingGuests.forEach(guest => {
+                        const card = document.createElement('div');
+                        card.className = 'glass-slipper p-4 flex items-center gap-3 text-left animate-fade-in border-none shadow-md';
+                        
+                        // Random princess emoji for avatar
+                        const avatars = ['👑', '🦄', '🏰', '🧚‍♀️', '✨', '👗', '💎', '🌈'];
+                        const randomAvatar = avatars[Math.floor(Math.random() * avatars.length)];
+
+                        // Backward compatibility logic for guest display
+                        let guestDisplay = '';
+                        if (guest.adults !== undefined || guest.kids !== undefined) {
+                            const adults = guest.adults || 0;
+                            const kids = guest.kids || 0;
+                            guestDisplay = `${adults} Adults, ${kids} Kids`;
+                        } else {
+                             // Fallback for old records
+                            guestDisplay = `${guest.guests || 1} Guests`;
+                        }
+
+                        card.innerHTML = `
+                            <div class="bg-white/80 w-10 h-10 rounded-full flex items-center justify-center text-xl shadow-sm">
+                                ${randomAvatar}
+                            </div>
+                            <div>
+                                <div class="font-bold text-gray-800">${guest.name}</div>
+                                <div class="text-xs text-purple-600 font-bold">${guestDisplay}</div>
+                            </div>
+                        `;
+                        guestListEl.appendChild(card);
+                    });
+                }, (error) => {
+                    console.error("Error getting documents: ", error);
+                    // We won't overwrite the HTML with an error message immediately to avoid flickering
+                    // if it's a transient permission issue during auth switch
+                    if (error.code === 'permission-denied') {
+                         console.log("Permission denied - waiting for valid auth state...");
+                    } else {
+                        document.getElementById('guestList').innerHTML = '<div class="col-span-full text-red-400">Could not load guest list at this time.</div>';
+                    }
+                });
+            }
+
+            // Handle Form Submission
+            const form = document.getElementById('rsvpForm');
+            if (form) {
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    
+                    const btn = document.getElementById('submitBtn');
+                    const originalBtnText = btn.innerHTML;
+                    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
+                    btn.disabled = true;
+
+                    const name = document.getElementById('guestName').value;
+                    const attending = document.querySelector('input[name="attending"]:checked').value;
+                    
+                    // New logic: Get adults and kids separately
+                    const adults = parseInt(document.getElementById('adultCount').value) || 0;
+                    const kids = parseInt(document.getElementById('kidCount').value) || 0;
+                    const totalGuests = adults + kids;
+                    
+                    const message = document.getElementById('message').value;
+
+                    try {
+                        // Ensure we are auth'd before writing
+                        if (!auth.currentUser) {
+                             // Retry auth if needed
+                             await initAuth();
+                        }
+
+                        if (!auth.currentUser) throw new Error("User not authenticated");
+
+                        await addDoc(rsvpRef, {
+                            name: name,
+                            attending: attending,
+                            adults: adults, // Save separate counts
+                            kids: kids,
+                            guests: totalGuests, // Keep total for potential sorting ease
+                            message: message,
+                            timestamp: serverTimestamp() 
+                        });
+
+                        // Show success UI
+                        document.getElementById('rsvpForm').classList.add('hidden');
+                        document.getElementById('successMessage').classList.remove('hidden');
+                        
+                        // Scroll to guest list to see name appear
+                        setTimeout(() => {
+                           document.getElementById('guestList').scrollIntoView({behavior: 'smooth'}); 
+                        }, 1500);
+
+                    } catch (error) {
+                        console.error("Error adding document: ", error);
+                        alert("Oh no! The royal messenger got lost. Please try again.");
+                        btn.innerHTML = originalBtnText;
+                        btn.disabled = false;
+                    }
+                });
+            }
+        } // End if(firebaseConfig)
+
+        // Host Function: Download Report (Exposed globally)
         window.downloadReport = function() {
             if (!window.currentGuestList || window.currentGuestList.length === 0) {
                 alert("No guests to export yet!");
@@ -708,63 +794,8 @@
             link.click();
             document.body.removeChild(link);
         }
-
-        // Handle Form Submission
-        document.getElementById('rsvpForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const btn = document.getElementById('submitBtn');
-            const originalBtnText = btn.innerHTML;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
-            btn.disabled = true;
-
-            const name = document.getElementById('guestName').value;
-            const attending = document.querySelector('input[name="attending"]:checked').value;
-            
-            // New logic: Get adults and kids separately
-            const adults = parseInt(document.getElementById('adultCount').value) || 0;
-            const kids = parseInt(document.getElementById('kidCount').value) || 0;
-            const totalGuests = adults + kids;
-            
-            const message = document.getElementById('message').value;
-
-            try {
-                // Ensure we are auth'd before writing
-                if (!auth.currentUser) {
-                     // Retry auth if needed
-                     await initAuth();
-                }
-
-                if (!auth.currentUser) throw new Error("User not authenticated");
-
-                await addDoc(rsvpRef, {
-                    name: name,
-                    attending: attending,
-                    adults: adults, // Save separate counts
-                    kids: kids,
-                    guests: totalGuests, // Keep total for potential sorting ease
-                    message: message,
-                    timestamp: serverTimestamp() 
-                });
-
-                // Show success UI
-                document.getElementById('rsvpForm').classList.add('hidden');
-                document.getElementById('successMessage').classList.remove('hidden');
-                
-                // Scroll to guest list to see name appear
-                setTimeout(() => {
-                   document.getElementById('guestList').scrollIntoView({behavior: 'smooth'}); 
-                }, 1500);
-
-            } catch (error) {
-                console.error("Error adding document: ", error);
-                alert("Oh no! The royal messenger got lost. Please try again.");
-                btn.innerHTML = originalBtnText;
-                btn.disabled = false;
-            }
-        });
     </script>
-
+    
     <script>window.va=window.va||function(){(window.va.q=window.va.q||[]).push(arguments)};</script><script src="/_vercel/insights/script.js"></script>
 	<script>window.si=window.si||function(){(window.siq=window.siq||[]).push(arguments)};</script><script src="/_vercel/speed-insights/script.js"></script>	
     
