@@ -6,8 +6,8 @@
     <title>Princess Aniska's 5th Birthday!</title>
     
     <!-- Favicon / App Icon -->
-    <link rel="icon" type="image/png" href="mcon.png">
-    <link rel="apple-touch-icon" href="mcon.png">
+    <link rel="icon" type="image/png" href="micon.png">
+    <link rel="apple-touch-icon" href="micon.png">
 
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -15,14 +15,14 @@
     <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://mithi.aimaverick.me">
-    <meta property="og:title" content="Aniska | 5th Bday">
+    <meta property="og:title" content="Aniska | 5th Bday Invite">
     <meta property="og:description" content="Aniska 5th Birthday Invite.">
     <meta property="og:image" content="mcon.png">
 
     <!-- Tailwind CSS -->
-    <script src="cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Great Vibes for headings, Lato for body, Playfair Display for elegant subheaders -->
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Dancing Script for headings (Readable Cursive), Lato for body, Playfair Display for elegant subheaders -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -33,9 +33,12 @@
             /* Rainbow Gradient Background */
             background-image: 
                 linear-gradient(120deg, #fce7f3 0%, #fef3c7 33%, #dbeafe 66%, #f3e8ff 100%);
+            /* Ensure background covers full scroll height */
+            min-height: 100vh;
+            background-attachment: fixed;
         }
         h1, h3, .princess-font {
-            font-family: 'Great Vibes', cursive;
+            font-family: 'Dancing Script', cursive;
         }
         /* Specific override for the elegant invite text */
         .serif-font {
@@ -56,36 +59,40 @@
             }
         }
 
-        /* --- New Glass Slipper Effect (Iridescent) --- */
-        .glass-slipper {
-            background: rgba(255, 255, 255, 0.3); /* More transparent for glass feel */
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.7);
+        /* --- Liquid Glass Effect --- */
+        /* Replaced glass-slipper with a thicker, wetter look */
+        .liquid-glass {
+            background: rgba(255, 255, 255, 0.45); /* Slightly more opaque base */
+            backdrop-filter: blur(14px) saturate(150%); /* High saturation for colorful liquid look */
+            -webkit-backdrop-filter: blur(14px) saturate(150%);
+            border-radius: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.8);
             box-shadow: 
-                0 8px 32px 0 rgba(31, 38, 135, 0.1),
-                inset 0 0 20px rgba(255, 255, 255, 0.5); /* Inner glow */
+                0 15px 35px rgba(0, 0, 0, 0.1), /* Deep shadow */
+                inset 0 0 25px rgba(255, 255, 255, 0.9), /* Strong inner glow */
+                inset 0 0 5px rgba(255, 255, 255, 0.5);
             position: relative;
             overflow: hidden;
         }
 
-        /* Moving light reflection on glass */
-        .glass-slipper::before {
+        /* Moving light reflection on liquid */
+        .liquid-glass::before {
             content: '';
             position: absolute;
             top: 0;
             left: -100%;
-            width: 50%;
+            width: 60%;
             height: 100%;
             background: linear-gradient(
                 to right,
                 transparent,
-                rgba(255, 255, 255, 0.6),
+                rgba(255, 255, 255, 0.8),
                 transparent
             );
             transform: skewX(-25deg);
-            animation: glass-shine 5s infinite;
+            animation: glass-shine 4.5s infinite ease-in-out;
             pointer-events: none;
+            opacity: 0.7;
         }
 
         @keyframes glass-shine {
@@ -186,10 +193,26 @@
             animation: sparkle-anim 2s linear forwards;
         }
 
+        /* Heart Animation Styles */
+        .floating-heart {
+            position: absolute;
+            pointer-events: none;
+            z-index: 50;
+            animation: floatUpHeart 4s linear forwards;
+            opacity: 0;
+        }
+
         @keyframes sparkle-anim {
             0% { transform: scale(0) rotate(0deg); opacity: 0; }
             50% { transform: scale(1) rotate(180deg); opacity: 0.8; }
             100% { transform: scale(0) rotate(360deg); opacity: 0; }
+        }
+
+        @keyframes floatUpHeart {
+            0% { transform: translateY(0) scale(0.5); opacity: 0; }
+            20% { opacity: 0.9; }
+            80% { opacity: 0.9; }
+            100% { transform: translateY(-100px) scale(1.2); opacity: 0; }
         }
 
         /* Custom scrollbar */
@@ -235,14 +258,14 @@
         <div class="absolute right-[25%] text-yellow-400 text-6xl float-up-item delay-4"><i class="fa-solid fa-gifts"></i></div>
         <div class="absolute left-[30%] text-red-300 text-5xl float-up-item delay-5"><i class="fa-solid fa-cake-candles"></i></div>
 
-        <!-- Decorative Floating Icons (Stationary Hover) -->
-        <div class="absolute top-10 left-10 text-yellow-400 text-4xl float-icon"><i class="fa-solid fa-crown"></i></div>
+        <!-- Decorative Floating Icons (Filtered) -->
+        <!-- Removed Crown and Snowflake as requested -->
+        <div class="absolute top-10 left-10 text-yellow-400 text-4xl float-icon"><i class="fa-solid fa-star"></i></div>
         <div class="absolute bottom-20 right-10 text-purple-400 text-5xl float-delayed"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
-        <div class="absolute top-1/4 right-5 text-blue-400 text-3xl float-reverse"><i class="fa-regular fa-snowflake"></i></div>
         <div class="absolute bottom-1/4 left-5 text-red-300 text-3xl float-icon"><i class="fa-solid fa-heart"></i></div>
         
-        <!-- Main Invitation Card (Glass Effect + Floating) -->
-        <div class="z-10 glass-slipper rounded-[2.5rem] p-6 md:p-8 max-w-4xl w-full float-majestic">
+        <!-- Main Invitation Card (Liquid Glass Effect) -->
+        <div class="z-10 liquid-glass p-6 md:p-8 max-w-4xl w-full float-majestic">
             
             <h2 class="text-lg md:text-2xl text-purple-800 mb-2 font-bold tracking-[0.2em] uppercase drop-shadow-md readable-text serif-font">You are cordially invited to</h2>
             
@@ -250,7 +273,7 @@
             
             <!-- PHOTO INTEGRATION -->
             <div class="flex justify-center mb-4 mt-2">
-                <div class="relative float-icon">
+                <div class="relative"> 
                     <img src="mithi.png" alt="Princess Aniska" class="relative max-h-48 md:max-h-64 w-auto object-contain z-10 glow-animation transform hover:scale-105 transition-transform duration-500">
                 </div>
             </div>
@@ -278,15 +301,15 @@
             </div>
 
             <div class="mt-4">
-                <a href="#rsvp" class="inline-block bg-gradient-to-r from-pink-400 via-yellow-400 to-blue-400 text-white text-lg md:text-xl font-bold py-3 px-10 md:px-12 rounded-full shadow-lg hover:scale-105 transition-transform duration-300 border-2 border-white/50">
-                    RSVP Now
+                <a href="https://evite.me/WDqcaY9bq9" target="_blank" class="inline-block bg-gradient-to-r from-pink-400 via-yellow-400 to-blue-400 text-white text-lg md:text-xl font-bold py-3 px-10 md:px-12 rounded-full shadow-lg hover:scale-105 transition-transform duration-300 border-2 border-white/50">
+                    RSVP on Evite
                 </a>
             </div>
         </div>
     </div>
 
-    <!-- Timeline Section (More Compact) -->
-    <div class="py-10 bg-white/80 backdrop-blur-md">
+    <!-- Timeline Section (More Compact with Rainbow Background) -->
+    <div class="py-10">
         <div class="max-w-6xl mx-auto px-4">
             <h2 class="text-5xl md:text-6xl text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 mb-10 princess-font drop-shadow-sm py-2 leading-relaxed">Growing Up Royal</h2>
             
@@ -294,7 +317,7 @@
                 <!-- Vertical Line (Rainbow) -->
                 <div class="hidden md:block absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-pink-200 via-yellow-200 to-blue-200"></div>
 
-                <!-- NEW: Birth Section (Pink Theme) -->
+                <!-- Birth Section (Pink Theme) -->
                 <div class="flex flex-col md:flex-row items-center mb-8 relative group">
                     <div class="md:w-1/2 p-4 text-right md:pr-12">
                         <h3 class="text-4xl text-pink-400 mb-2">Birth</h3>
@@ -302,7 +325,7 @@
                     </div>
                     <div class="absolute left-1/2 transform -translate-x-1/2 bg-pink-400 w-8 h-8 rounded-full border-4 border-white shadow hidden md:block z-10"></div>
                     <div class="md:w-1/2 p-4 md:pl-12">
-                        <div class="bg-pink-50 p-2 rounded-xl shadow-lg rotate-3 group-hover:rotate-0 transition-transform duration-500 border border-pink-100">
+                        <div class="liquid-glass p-2 rotate-3 group-hover:rotate-0 transition-transform duration-500 border border-pink-100">
                             <img src="birth.jpg" alt="Birth" class="rounded-lg w-full object-cover shadow-inner">
                         </div>
                     </div>
@@ -316,7 +339,7 @@
                     </div>
                     <div class="absolute left-1/2 transform -translate-x-1/2 bg-yellow-400 w-8 h-8 rounded-full border-4 border-white shadow hidden md:block z-10"></div>
                     <div class="md:w-1/2 p-4 md:pr-12">
-                        <div class="bg-yellow-50 p-2 rounded-xl shadow-lg -rotate-2 group-hover:rotate-0 transition-transform duration-500 border border-yellow-100">
+                        <div class="liquid-glass p-2 -rotate-2 group-hover:rotate-0 transition-transform duration-500 border border-yellow-100">
                             <img src="a1.jpg" alt="Age 1" class="rounded-lg w-full object-cover shadow-inner">
                         </div>
                     </div>
@@ -330,7 +353,7 @@
                     </div>
                     <div class="absolute left-1/2 transform -translate-x-1/2 bg-green-400 w-8 h-8 rounded-full border-4 border-white shadow hidden md:block z-10"></div>
                     <div class="md:w-1/2 p-4 md:pl-12">
-                        <div class="bg-green-50 p-2 rounded-xl shadow-lg rotate-1 group-hover:rotate-0 transition-transform duration-500 border border-green-100">
+                        <div class="liquid-glass p-2 rotate-1 group-hover:rotate-0 transition-transform duration-500 border border-green-100">
                             <img src="a2.jpg" alt="Age 2" class="rounded-lg w-full object-cover shadow-inner">
                         </div>
                     </div>
@@ -344,7 +367,7 @@
                     </div>
                     <div class="absolute left-1/2 transform -translate-x-1/2 bg-blue-400 w-8 h-8 rounded-full border-4 border-white shadow hidden md:block z-10"></div>
                     <div class="md:w-1/2 p-4 md:pr-12">
-                        <div class="bg-blue-50 p-2 rounded-xl shadow-lg -rotate-3 group-hover:rotate-0 transition-transform duration-500 border border-blue-100">
+                        <div class="liquid-glass p-2 -rotate-3 group-hover:rotate-0 transition-transform duration-500 border border-blue-100">
                             <img src="a3.jpg" alt="Age 3" class="rounded-lg w-full object-cover shadow-inner">
                         </div>
                     </div>
@@ -358,117 +381,35 @@
                     </div>
                     <div class="absolute left-1/2 transform -translate-x-1/2 bg-purple-400 w-8 h-8 rounded-full border-4 border-white shadow hidden md:block z-10"></div>
                     <div class="md:w-1/2 p-4 md:pl-12">
-                        <div class="bg-purple-50 p-2 rounded-xl shadow-lg rotate-1 group-hover:rotate-0 transition-transform duration-500 border border-purple-100">
+                        <div class="liquid-glass p-2 rotate-1 group-hover:rotate-0 transition-transform duration-500 border border-purple-100">
                             <img src="a4.jpg" alt="Age 4" class="rounded-lg w-full object-cover shadow-inner">
                         </div>
                     </div>
                 </div>
-                
-                <!-- REMOVED AGE 5 SECTION -->
 
             </div>
         </div>
     </div>
 
-    <!-- RSVP Section (More Compact) -->
-    <div id="rsvp" class="py-12 bg-gradient-to-b from-white to-pink-50 relative overflow-hidden">
-        <!-- Decorative background circles (Rainbow) -->
-        <div class="absolute -top-10 -right-10 w-40 h-40 bg-yellow-200 rounded-full opacity-30 blur-2xl animate-pulse"></div>
-        <div class="absolute -bottom-10 -left-10 w-60 h-60 bg-blue-200 rounded-full opacity-30 blur-2xl animate-pulse"></div>
-
+    <!-- RSVP Section (Updated for Evite with Rainbow Background) -->
+    <div id="rsvp" class="py-12 overflow-hidden">
         <div class="max-w-lg mx-auto px-4 relative z-10">
             <!-- Glass Effect on RSVP Card -->
-            <div class="glass-slipper rounded-3xl shadow-2xl overflow-hidden">
-                <div class="bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 backdrop-blur-sm p-6 text-center">
+            <div class="liquid-glass text-center overflow-hidden">
+                <div class="bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 backdrop-blur-sm p-6">
                     <h2 class="text-4xl text-white princess-font drop-shadow">Royal RSVP</h2>
                     <p class="text-pink-100">Will you join the rainbow celebration?</p>
                 </div>
                 
-                <div class="p-8">
-                    <form id="rsvpForm" class="space-y-6">
-                        <div>
-                            <label class="block text-gray-800 font-bold mb-2">Guest Name(s)</label>
-                            <input type="text" id="guestName" required placeholder="e.g. Auntie Sarah" class="w-full px-4 py-3 rounded-lg border border-pink-200 focus:outline-none focus:ring-2 focus:ring-purple-400 bg-white/70 backdrop-blur-sm transition-colors">
-                        </div>
-
-                        <div>
-                            <label class="block text-gray-800 font-bold mb-2">Will you attend?</label>
-                            <div class="flex gap-4">
-                                <label class="flex-1 cursor-pointer">
-                                    <input type="radio" name="attending" value="yes" checked class="peer sr-only">
-                                    <div class="text-center p-3 rounded-lg border-2 border-green-200 peer-checked:border-green-500 peer-checked:bg-green-100/50 transition-all bg-white/40">
-                                        <i class="fa-solid fa-check text-green-600 mb-1"></i>
-                                        <div class="font-bold">Yes!</div>
-                                    </div>
-                                </label>
-                                <label class="flex-1 cursor-pointer">
-                                    <input type="radio" name="attending" value="no" class="peer sr-only">
-                                    <div class="text-center p-3 rounded-lg border-2 border-red-200 peer-checked:border-red-500 peer-checked:bg-red-100/50 transition-all bg-white/40">
-                                        <i class="fa-solid fa-xmark text-red-500 mb-1"></i>
-                                        <div class="font-bold">Regretfully No</div>
-                                    </div>
-                                </label>
-                            </div>
-                        </div>
-
-                        <!-- SPLIT GUEST COUNT -->
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-gray-800 font-bold mb-2">Adults</label>
-                                <input type="number" id="adultCount" min="1" max="10" value="1" class="w-full px-4 py-3 rounded-lg border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white/70 backdrop-blur-sm transition-colors">
-                            </div>
-                            <div>
-                                <label class="block text-gray-800 font-bold mb-2">Kids</label>
-                                <input type="number" id="kidCount" min="0" max="10" value="0" class="w-full px-4 py-3 rounded-lg border border-yellow-200 focus:outline-none focus:ring-2 focus:ring-yellow-400 bg-white/70 backdrop-blur-sm transition-colors">
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="block text-gray-800 font-bold mb-2">Message for the Princess (Optional)</label>
-                            <textarea id="message" rows="2" placeholder="Happy Birthday!" class="w-full px-4 py-3 rounded-lg border border-yellow-200 focus:outline-none focus:ring-2 focus:ring-yellow-400 bg-white/70 backdrop-blur-sm transition-colors"></textarea>
-                        </div>
-
-                        <button type="submit" id="submitBtn" class="w-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 hover:from-pink-600 hover:to-yellow-600 text-white font-bold py-4 rounded-xl shadow-lg transform transition hover:-translate-y-1 hover:shadow-xl">
-                            Send Royal Decree
-                        </button>
-                    </form>
-
-                    <!-- Success Message -->
-                    <div id="successMessage" class="hidden text-center py-10">
-                        <div class="text-5xl text-purple-500 mb-4 animate-bounce">
-                            <i class="fa-solid fa-wand-magic-sparkles"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold text-gray-800 mb-2">Thank you!</h3>
-                        <p class="text-gray-600">Your response has been sent to the castle.</p>
-                        <button onclick="location.reload()" class="mt-4 text-pink-500 underline text-sm">Submit another</button>
-                    </div>
+                <div class="p-10 flex flex-col items-center justify-center">
+                    <p class="text-gray-700 text-lg mb-8">
+                        We are managing our guest list on Evite.<br>Please click the button below to respond.
+                    </p>
+                    
+                    <a href="https://evite.me/WDqcaY9bq9" target="_blank" class="w-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 hover:from-pink-600 hover:to-yellow-600 text-white font-bold py-4 rounded-xl shadow-lg transform transition hover:-translate-y-1 hover:shadow-xl inline-block">
+                        <i class="fa-regular fa-envelope-open mr-2"></i> Respond on Evite
+                    </a>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Guest List Display (Proof of Database) -->
-    <div class="py-12 bg-white border-t border-gray-100">
-        <div class="max-w-4xl mx-auto px-4 text-center">
-            
-            <!-- Host Features: Summary and Download (Hidden by default) -->
-            <div id="hostDashboard" class="hidden mb-10 p-6 bg-pink-50 rounded-2xl border border-pink-100 shadow-sm inline-block w-full md:w-auto">
-                <h3 class="text-2xl princess-font text-purple-600 mb-4">Host Dashboard</h3>
-                
-                <div id="totalCountDisplay" class="text-lg md:text-xl font-bold text-gray-700 mb-6">
-                    <span class="inline-block animate-pulse">✨</span> Loading stats...
-                </div>
-                
-                <button onclick="window.downloadReport()" class="bg-white border-2 border-pink-400 text-pink-500 hover:bg-pink-500 hover:text-white font-bold py-2 px-6 rounded-full transition-all duration-300 flex items-center justify-center mx-auto gap-2 shadow-sm hover:shadow-md">
-                    <i class="fa-solid fa-file-csv"></i> Download Guest List
-                </button>
-            </div>
-
-            <h2 class="text-3xl princess-font text-purple-500 mb-8">Who is Coming to the Castle?</h2>
-            
-            <div id="guestList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <!-- Guests will load here from Firestore -->
-                <div class="col-span-full text-gray-400 italic">Checking the royal scrolls...</div>
             </div>
         </div>
     </div>
@@ -477,325 +418,70 @@
         <p class="font-bold">Made with <i class="fa-solid fa-heart text-yellow-300 animate-pulse"></i> for Princess Aniska</p>
     </footer>
 
-    <!-- Magic Sparkle Script -->
+    <!-- Magic Sparkle & Love Script -->
     <script>
+        // Colors for sparkles
+        const colors = ['#f87171', '#fbbf24', '#34d399', '#60a5fa', '#a78bfa', '#f472b6'];
+
         function createSparkle() {
             const sparkle = document.createElement('div');
             sparkle.classList.add('sparkle');
             
-            // Random position across the entire page height
             const x = Math.random() * window.innerWidth;
             const y = Math.random() * Math.max(document.body.scrollHeight, window.innerHeight); 
-            
-            // Random size
-            const size = Math.random() * 15 + 8; 
+            // Increased sparkle size
+            const size = Math.random() * 25 + 15; 
             
             sparkle.style.left = `${x}px`;
             sparkle.style.top = `${y}px`;
             sparkle.style.width = `${size}px`;
             sparkle.style.height = `${size}px`;
             
-            // Random color tint (Rainbow Colors)
-            const colors = ['#f87171', '#fbbf24', '#34d399', '#60a5fa', '#a78bfa', '#f472b6'];
             const randomColor = colors[Math.floor(Math.random() * colors.length)];
             sparkle.style.background = randomColor;
             sparkle.style.boxShadow = `0 0 10px 2px ${randomColor}`;
 
             document.body.appendChild(sparkle);
 
-            // Remove after animation
             setTimeout(() => {
                 sparkle.remove();
             }, 2000);
         }
 
-        // Create sparkles periodically
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('floating-heart');
+            heart.innerHTML = ['❤️', '💖', '💝', '💕'][Math.floor(Math.random() * 4)];
+            
+            const x = Math.random() * window.innerWidth;
+            const y = Math.random() * Math.max(document.body.scrollHeight, window.innerHeight); 
+            // Increased heart size
+            const size = Math.random() * 2.0 + 1.5; // Scale factor
+            
+            heart.style.left = `${x}px`;
+            heart.style.top = `${y}px`;
+            heart.style.fontSize = `${size}rem`;
+            
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 4000);
+        }
+
+        // Create elements periodically
         setInterval(createSparkle, 300);
+        setInterval(createHeart, 800); // Hearts appear less frequently
         
-        // Burst of sparkles on click!
+        // Burst on click!
         document.addEventListener('click', (e) => {
             for(let i=0; i<8; i++) {
                 setTimeout(createSparkle, i * 50);
             }
+            createHeart();
         });
     </script>
 
-    <!-- HOST CHECK SCRIPT: Runs independently of Firebase -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.has('host')) {
-                const dashboard = document.getElementById('hostDashboard');
-                if(dashboard) {
-                    dashboard.classList.remove('hidden');
-                    console.log("Host dashboard enabled via URL parameter.");
-                }
-            }
-        });
-    </script>
-
-    <!-- Firebase Scripts -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-
-        // Global Firebase Config (Provided by environment)
-        // NOTE: If hosting externally, you must replace JSON.parse(__firebase_config) with your actual config object!
-        let firebaseConfig;
-        try {
-            firebaseConfig = JSON.parse(__firebase_config);
-        } catch (e) {
-            console.error("Firebase config missing. If you are hosting this file, you must add your firebaseConfig object manually.");
-            // Add a friendly error to the UI
-            document.getElementById('guestList').innerHTML = '<div class="col-span-full text-red-500 bg-red-50 p-4 rounded-xl">⚠️ <b>Setup Required:</b> Database configuration is missing. This happens when hosting the file externally without copying the Firebase keys. Please check the console for details.</div>';
-        }
-
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        
-        if (firebaseConfig) {
-            // Initialize Firebase
-            const app = initializeApp(firebaseConfig);
-            const db = getFirestore(app);
-            const auth = getAuth(app);
-
-            const rsvpCollectionPath = `artifacts/${appId}/public/data/rsvps`;
-            const rsvpRef = collection(db, 'artifacts', appId, 'public', 'data', 'rsvps');
-
-            let unsubscribe; // Variable to hold the listener unsubscribe function
-            window.currentGuestList = []; // Store guests for export
-
-            // Init Auth Function
-            const initAuth = async () => {
-                 try {
-                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                        await signInWithCustomToken(auth, __initial_auth_token);
-                    } else {
-                        await signInAnonymously(auth);
-                    }
-                } catch (error) {
-                    console.error("Auth initialization failed:", error);
-                }
-            };
-
-            // Initialize and listen
-            initAuth();
-
-            // Listen for auth state changes before attaching listeners
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    console.log("User authenticated:", user.uid);
-                    setupRealtimeListener(user);
-                } else {
-                    console.log("User signed out");
-                    if (unsubscribe) {
-                        unsubscribe();
-                        unsubscribe = null;
-                    }
-                }
-            });
-
-            function setupRealtimeListener(user) {
-                 if (unsubscribe) {
-                    unsubscribe(); // Clean up existing listener if any
-                 }
-
-                 // Listen for RSVPs to display them
-                unsubscribe = onSnapshot(rsvpRef, (snapshot) => {
-                    const guestListEl = document.getElementById('guestList');
-                    guestListEl.innerHTML = '';
-                    
-                    const responses = [];
-                    snapshot.forEach(doc => {
-                        responses.push({ id: doc.id, ...doc.data() });
-                    });
-
-                    // Filter for "Yes" only and Sort by date (newest first) in memory
-                    const attendingGuests = responses
-                        .filter(r => r.attending === 'yes')
-                        .sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
-
-                    // Save for export
-                    window.currentGuestList = attendingGuests;
-
-                    // Calculate Totals
-                    let totalAdults = 0;
-                    let totalKids = 0;
-                    attendingGuests.forEach(g => {
-                        totalAdults += (g.adults || 0);
-                        totalKids += (g.kids || 0);
-                        // Fallback for old data structure if simple guests count was used
-                        if(!g.adults && !g.kids && g.guests) {
-                            totalAdults += g.guests; 
-                        }
-                    });
-
-                    // Update Summary
-                    const totalDisplay = document.getElementById('totalCountDisplay');
-                    if(totalDisplay) {
-                         totalDisplay.innerHTML = `
-                            <div class="flex gap-6 justify-center">
-                                <div class="text-center">
-                                    <div class="text-3xl text-blue-500 font-extrabold">${totalAdults}</div>
-                                    <div class="text-xs uppercase tracking-wide text-gray-500">Adults</div>
-                                </div>
-                                <div class="text-center">
-                                    <div class="text-3xl text-pink-500 font-extrabold">${totalKids}</div>
-                                    <div class="text-xs uppercase tracking-wide text-gray-500">Kids</div>
-                                </div>
-                                <div class="text-center border-l pl-6 border-gray-200">
-                                    <div class="text-3xl text-purple-600 font-extrabold">${totalAdults + totalKids}</div>
-                                    <div class="text-xs uppercase tracking-wide text-gray-500">Total</div>
-                                </div>
-                            </div>
-                         `;
-                    }
-
-
-                    if (attendingGuests.length === 0) {
-                        guestListEl.innerHTML = '<div class="col-span-full text-gray-500">No RSVPs yet. Be the first!</div>';
-                        return;
-                    }
-
-                    attendingGuests.forEach(guest => {
-                        const card = document.createElement('div');
-                        card.className = 'glass-slipper p-4 flex items-center gap-3 text-left animate-fade-in border-none shadow-md';
-                        
-                        // Random princess emoji for avatar
-                        const avatars = ['👑', '🦄', '🏰', '🧚‍♀️', '✨', '👗', '💎', '🌈'];
-                        const randomAvatar = avatars[Math.floor(Math.random() * avatars.length)];
-
-                        // Backward compatibility logic for guest display
-                        let guestDisplay = '';
-                        if (guest.adults !== undefined || guest.kids !== undefined) {
-                            const adults = guest.adults || 0;
-                            const kids = guest.kids || 0;
-                            guestDisplay = `${adults} Adults, ${kids} Kids`;
-                        } else {
-                             // Fallback for old records
-                            guestDisplay = `${guest.guests || 1} Guests`;
-                        }
-
-                        card.innerHTML = `
-                            <div class="bg-white/80 w-10 h-10 rounded-full flex items-center justify-center text-xl shadow-sm">
-                                ${randomAvatar}
-                            </div>
-                            <div>
-                                <div class="font-bold text-gray-800">${guest.name}</div>
-                                <div class="text-xs text-purple-600 font-bold">${guestDisplay}</div>
-                            </div>
-                        `;
-                        guestListEl.appendChild(card);
-                    });
-                }, (error) => {
-                    console.error("Error getting documents: ", error);
-                    // We won't overwrite the HTML with an error message immediately to avoid flickering
-                    // if it's a transient permission issue during auth switch
-                    if (error.code === 'permission-denied') {
-                         console.log("Permission denied - waiting for valid auth state...");
-                    } else {
-                        document.getElementById('guestList').innerHTML = '<div class="col-span-full text-red-400">Could not load guest list at this time.</div>';
-                    }
-                });
-            }
-
-            // Handle Form Submission
-            const form = document.getElementById('rsvpForm');
-            if (form) {
-                form.addEventListener('submit', async (e) => {
-                    e.preventDefault();
-                    
-                    const btn = document.getElementById('submitBtn');
-                    const originalBtnText = btn.innerHTML;
-                    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
-                    btn.disabled = true;
-
-                    const name = document.getElementById('guestName').value;
-                    const attending = document.querySelector('input[name="attending"]:checked').value;
-                    
-                    // New logic: Get adults and kids separately
-                    const adults = parseInt(document.getElementById('adultCount').value) || 0;
-                    const kids = parseInt(document.getElementById('kidCount').value) || 0;
-                    const totalGuests = adults + kids;
-                    
-                    const message = document.getElementById('message').value;
-
-                    try {
-                        // Ensure we are auth'd before writing
-                        if (!auth.currentUser) {
-                             // Retry auth if needed
-                             await initAuth();
-                        }
-
-                        if (!auth.currentUser) throw new Error("User not authenticated");
-
-                        await addDoc(rsvpRef, {
-                            name: name,
-                            attending: attending,
-                            adults: adults, // Save separate counts
-                            kids: kids,
-                            guests: totalGuests, // Keep total for potential sorting ease
-                            message: message,
-                            timestamp: serverTimestamp() 
-                        });
-
-                        // Show success UI
-                        document.getElementById('rsvpForm').classList.add('hidden');
-                        document.getElementById('successMessage').classList.remove('hidden');
-                        
-                        // Scroll to guest list to see name appear
-                        setTimeout(() => {
-                           document.getElementById('guestList').scrollIntoView({behavior: 'smooth'}); 
-                        }, 1500);
-
-                    } catch (error) {
-                        console.error("Error adding document: ", error);
-                        alert("Oh no! The royal messenger got lost. Please try again.");
-                        btn.innerHTML = originalBtnText;
-                        btn.disabled = false;
-                    }
-                });
-            }
-        } // End if(firebaseConfig)
-
-        // Host Function: Download Report (Exposed globally)
-        window.downloadReport = function() {
-            if (!window.currentGuestList || window.currentGuestList.length === 0) {
-                alert("No guests to export yet!");
-                return;
-            }
-            
-            let csvContent = "data:text/csv;charset=utf-8,";
-            csvContent += "Name,Adults,Kids,Total,Message,Date\n"; // Header
-            
-            window.currentGuestList.forEach(guest => {
-                // Formatting date safely
-                let dateStr = "";
-                if (guest.timestamp && guest.timestamp.seconds) {
-                    dateStr = new Date(guest.timestamp.seconds * 1000).toLocaleDateString();
-                }
-
-                const row = [
-                    `"${(guest.name || '').replace(/"/g, '""')}"`, // Name
-                    guest.adults || 0,
-                    guest.kids || 0,
-                    (guest.adults || 0) + (guest.kids || 0),
-                    `"${(guest.message || '').replace(/"/g, '""')}"`, // Message
-                    `"${dateStr}"`
-                ].join(",");
-                csvContent += row + "\n";
-            });
-            
-            const encodedUri = encodeURI(csvContent);
-            const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", "princess_party_guest_list.csv");
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-    </script>
-    
     <script>window.va=window.va||function(){(window.va.q=window.va.q||[]).push(arguments)};</script><script src="/_vercel/insights/script.js"></script>
 	<script>window.si=window.si||function(){(window.siq=window.siq||[]).push(arguments)};</script><script src="/_vercel/speed-insights/script.js"></script>	
     
